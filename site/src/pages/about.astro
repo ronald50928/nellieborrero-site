@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="About — Nellie Borrero" description="Condensed biography, accolades, and media of author and advisor Nellie Borrero." path="/about">
+	<section class="container py-12 grid gap-8 md:grid-cols-3 items-start">
+		<div class="md:col-span-2 prose">
+			<h1 class="text-3xl md:text-5xl font-bold text-plum">About</h1>
+			<p>Nellie Borrero is an author and advisor known for advancing inclusion strategy, leadership accountability, and culture transformation. Her work has reached over 500,000 people globally.</p>
+			<h2 class="text-2xl mt-6">Accolades</h2>
+			<ul>
+				<li>Featured in Forbes, NPR, and Fortune</li>
+				<li>Global keynote speaker and executive advisor</li>
+				<li>Recognized for impact in leadership and culture change</li>
+			</ul>
+			<div class="mt-6">
+				<a class="btn-secondary" href="/media-kit.pdf">Download media kit</a>
+			</div>
+		</div>
+		<aside class="bg-white rounded-lg border border-gray-200 p-4">
+			<h2 class="font-semibold text-plum">Media</h2>
+			<ul class="mt-2 space-y-2">
+				<li><img src="/logos/forbes.svg" alt="Forbes" width="120" height="40" /></li>
+				<li><img src="/logos/npr.svg" alt="NPR" width="100" height="40" /></li>
+				<li><img src="/logos/fortune.svg" alt="Fortune" width="120" height="40" /></li>
+			</ul>
+		</aside>
+	</section>
+</Layout>
+

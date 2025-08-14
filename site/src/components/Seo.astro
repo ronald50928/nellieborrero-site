@@ -1,0 +1,50 @@
+---
+import { site } from '../config/site';
+import person from '../content/person.json';
+
+type Props = {
+  title: string;
+  description: string;
+  path?: string;
+  openGraph?: Record<string, any>;
+};
+
+const { title, description, path = '/', openGraph = {} } = Astro.props as Props;
+const url = new URL(path, `https://${site.domain}`).toString();
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={url} />
+<meta name="theme-color" content="#5B2D8C" />
+<meta name="robots" content="index,follow" />
+
+<!-- OpenGraph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`https://${site.domain}/og.jpg`} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={`https://${site.domain}/og.jpg`} />
+
+<!-- Schema.org -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  url,
+  description
+})} />
+<script type="application/ld+json" set:html={JSON.stringify(person)} />
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Nellie Borrero LLC",
+  url: `https://${site.domain}`,
+  logo: `https://${site.domain}/logo.svg`
+})} />
+

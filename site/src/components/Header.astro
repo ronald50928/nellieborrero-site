@@ -1,0 +1,18 @@
+---
+import { site } from '../config/site';
+---
+<header class="bg-snow border-b border-gray-200">
+	<div class="container flex items-center justify-between py-4" role="navigation" aria-label="Primary">
+		<a href="/" class="flex items-center gap-2 focus:outline-none">
+			<span class="font-bold text-lg">{site.name}</span>
+		</a>
+		<nav>
+			<ul class="flex gap-6">
+				<li><a class="hover:underline" href="/">Home</a></li>
+				<li><a class="hover:underline" href="/services">Services</a></li>
+				<li><a class="hover:underline" href="/about">About</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+

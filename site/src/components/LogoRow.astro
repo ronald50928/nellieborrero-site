@@ -1,0 +1,17 @@
+---
+const logos = [
+  { src: '/logos/forbes.svg', alt: 'Forbes' },
+  { src: '/logos/chicago-tribune.svg', alt: 'Chicago Tribune' },
+  { src: '/logos/npr.svg', alt: 'NPR' },
+  { src: '/logos/fortune.svg', alt: 'Fortune' },
+  { src: '/logos/cnn.svg', alt: 'CNN' },
+];
+---
+<ul class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
+  {logos.map((l) => (
+    <li class="flex items-center justify-center p-3 bg-white rounded-md border border-gray-200" style="background-image: linear-gradient(180deg, rgba(91,45,140,0.06), rgba(194,24,91,0.06)); background-blend-mode: multiply;">
+      <img src={l.src} alt={l.alt} loading="lazy" width="120" height="40" />
+    </li>
+  ))}
+</ul>
+

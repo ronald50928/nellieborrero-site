@@ -1,0 +1,86 @@
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0"
+    }
+  }
+}
+
+provider "aws" { region = "us-east-1" }
+
+variable "domain_name" {
+  type    = string
+  default = "nellieborrero.com"
+}
+variable "enable_logging" {
+  type    = bool
+  default = false
+}
+variable "price_class" {
+  type    = string
+  default = "PriceClass_100"
+}
+variable "html_ttl_seconds" {
+  type    = number
+  default = 300
+}
+variable "asset_ttl_seconds" {
+  type    = number
+  default = 2592000
+}
+variable "project" {
+  type    = string
+  default = "nellieborrero-site"
+}
+locals {
+  tags = {
+    Project   = var.project
+    ManagedBy = "terraform"
+    Env       = "prod"
+  }
+}
+
+module "s3" {
+  source         = "../../modules/s3_static_site"
+  bucket_name    = "${var.project}-${random_id.suffix.hex}"
+  enable_logging = var.enable_logging
+  tags           = local.tags
+  distribution_arn = module.cdn.distribution_arn
+  # oac_iam_arn set after CloudFront created (2-step apply not needed if we allow public read via OAC policy only). We'll update after CF create.
+}
+
+# ACM would be created/validated separately; placeholder input expected
+variable "acm_cert_arn" { type = string }
+
+module "cdn" {
+  source              = "../../modules/cloudfront_cdn"
+  origin_bucket_domain = "${module.s3.bucket_name}.s3.amazonaws.com"
+  domain_name         = var.domain_name
+  aliases             = []
+  price_class         = var.price_class
+  html_ttl_seconds    = var.html_ttl_seconds
+  asset_ttl_seconds   = var.asset_ttl_seconds
+  acm_cert_arn        = ""
+  use_default_cert    = true
+  tags                = local.tags
+}
+
+# DNS not configured for now
+
+module "oidc" {
+  source = "../../modules/iam_oidc_github"
+  repo   = "${var.domain_name}/nellieborrero-site"
+  bucket_arn = "arn:aws:s3:::${module.s3.bucket_name}"
+  distribution_arn = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${module.cdn.distribution_id}"
+}
+
+output "bucket" { value = module.s3.bucket_name }
+output "distribution_domain" { value = module.cdn.distribution_domain }
+output "distribution_id" { value = module.cdn.distribution_id }
+output "deploy_role_arn" { value = module.oidc.deploy_role_arn }
+data "aws_caller_identity" "current" {}
+
+resource "random_id" "suffix" { byte_length = 4 }
+

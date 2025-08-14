@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Geometric background">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5B2D8C"/>
+      <stop offset="1" stop-color="#C2185B"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2B705"/>
+      <stop offset="1" stop-color="#5B2D8C"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#C2185B"/>
+      <stop offset="1" stop-color="#5B2D8C"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5B2D8C"/>
+      <stop offset="1" stop-color="#3f1f61"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#5B2D8C"/>
+  <!-- Low-poly mosaic: large triangles to keep SVG tiny -->
+  <g opacity="0.6">
+    <polygon points="0,0 400,0 200,220" fill="url(#g1)"/>
+    <polygon points="400,0 800,0 600,260" fill="url(#g3)"/>
+    <polygon points="800,0 1200,0 1000,240" fill="url(#g4)"/>
+    <polygon points="1200,0 1600,0 1400,260" fill="url(#g3)"/>
+    <polygon points="0,0 200,220 0,450" fill="url(#g4)"/>
+    <polygon points="200,220 400,0 420,360" fill="url(#g2)"/>
+    <polygon points="400,0 600,260 420,360" fill="url(#g3)"/>
+    <polygon points="600,260 800,0 840,380" fill="url(#g1)"/>
+    <polygon points="800,0 1000,240 1040,420" fill="url(#g4)"/>
+    <polygon points="1000,240 1200,0 1240,360" fill="url(#g3)"/>
+    <polygon points="1200,0 1400,260 1420,420" fill="url(#g1)"/>
+    <polygon points="1400,260 1600,0 1600,300" fill="url(#g2)"/>
+    <polygon points="0,450 200,220 240,560" fill="url(#g3)"/>
+    <polygon points="200,220 420,360 280,640" fill="url(#g4)"/>
+    <polygon points="420,360 600,260 560,640" fill="url(#g1)"/>
+    <polygon points="600,260 840,380 740,700" fill="url(#g2)"/>
+    <polygon points="840,380 1040,420 980,760" fill="url(#g4)"/>
+    <polygon points="1040,420 1240,360 1260,720" fill="url(#g1)"/>
+    <polygon points="1240,360 1420,420 1480,740" fill="url(#g3)"/>
+    <polygon points="1420,420 1600,300 1600,700" fill="url(#g4)"/>
+  </g>
+</svg>
+

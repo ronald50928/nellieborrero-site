@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import LogoRow from '../components/LogoRow.astro';
+import Pillars from '../components/Pillars.astro';
+---
+
+<Layout title="Nellie Borrero — Igniting Inclusive Leadership" description="Author and advisor advancing inclusion, leadership accountability, and culture transformation at global scale." path="/">
+	<Hero />
+	<section aria-labelledby="pillars" class="container py-12">
+		<h2 id="pillars" class="text-2xl md:text-3xl font-bold text-plum">Value pillars</h2>
+		<Pillars />
+	</section>
+	<section aria-labelledby="impact" class="container py-8">
+		<h2 id="impact" class="sr-only">Impact</h2>
+		<div class="bg-charcoal text-white rounded-lg p-6 md:p-8 flex items-center justify-between gap-6">
+			<p class="text-xl md:text-2xl font-semibold">500,000+ people impacted globally</p>
+			<a class="btn-secondary" href="mailto:book@nellieborrero.com">Book Nellie</a>
+		</div>
+	</section>
+	<section aria-labelledby="press" class="container py-12">
+		<h2 id="press" class="text-2xl md:text-3xl font-bold text-plum">As seen in</h2>
+		<LogoRow />
+	</section>
+</Layout>

@@ -1,0 +1,16 @@
+# Node/Astro
+site/node_modules/
+site/.astro/
+site/dist/
+site/.lighthouseci/
+
+# Terraform
+infra/**/.terraform/
+infra/**/.terraform.lock.hcl
+infra/**/terraform.tfstate*
+*.tfstate
+*.tfstate.backup
+
+# OS
+.DS_Store
+

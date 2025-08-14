@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://nellieborrero.com/sitemap-index.xml
+

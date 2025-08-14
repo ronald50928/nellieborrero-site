@@ -1,0 +1,7 @@
+/* TEAM */
+Author: Nellie Borrero
+Site: https://nellieborrero.com
+
+/* THANKS */
+Built with Astro + Tailwind. Accessibility first.
+
