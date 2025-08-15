@@ -67,7 +67,12 @@ module "cdn" {
   tags                = local.tags
 }
 
-# DNS not configured for now
+module "dns" {
+  source     = "../../modules/route53_dns"
+  domain_name = var.domain_name
+  cf_domain   = module.cdn.distribution_domain
+  cf_zone_id  = "Z2FDTNDATAQYW2" # CloudFront hosted zone ID
+}
 
 module "oidc" {
   source = "../../modules/iam_oidc_github"
@@ -80,6 +85,8 @@ output "bucket" { value = module.s3.bucket_name }
 output "distribution_domain" { value = module.cdn.distribution_domain }
 output "distribution_id" { value = module.cdn.distribution_id }
 output "deploy_role_arn" { value = module.oidc.deploy_role_arn }
+output "route53_nameservers" { value = module.dns.nameservers }
+output "route53_hosted_zone_id" { value = module.dns.hosted_zone_id }
 data "aws_caller_identity" "current" {}
 
 resource "random_id" "suffix" { byte_length = 4 }

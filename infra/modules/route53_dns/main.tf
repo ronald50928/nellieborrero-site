@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.6.0"
+  required_version = ">= 1.5.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -61,4 +61,5 @@ resource "aws_route53_record" "www_aaaa" {
 }
 
 output "hosted_zone_id" { value = aws_route53_zone.this.zone_id }
+output "nameservers" { value = aws_route53_zone.this.name_servers }
 
