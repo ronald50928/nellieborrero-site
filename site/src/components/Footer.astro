@@ -5,7 +5,10 @@ const year = new Date().getFullYear();
 <footer class="mt-16 border-t border-gray-200 bg-snow">
 	<div class="container py-8 grid gap-6 md:grid-cols-3 items-start">
 		<div class="prose">
-			<p class="font-semibold heading-accent inline-block">{site.name}</p>
+			<div class="flex items-center gap-2 mb-2">
+				<img src="/logo-header.png" alt={site.name} width="120" height="120" class="w-8 h-8" />
+				<p class="font-semibold heading-accent inline-block">{site.name}</p>
+			</div>
 			<p>Igniting Inclusive Leadership at Global Scale.</p>
 		</div>
 		<nav aria-label="Footer quick links">
