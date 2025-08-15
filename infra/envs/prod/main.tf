@@ -58,12 +58,12 @@ module "cdn" {
   source              = "../../modules/cloudfront_cdn"
   origin_bucket_domain = "${module.s3.bucket_name}.s3.amazonaws.com"
   domain_name         = var.domain_name
-  aliases             = []
+  aliases             = ["nellieborrero.com", "www.nellieborrero.com"]
   price_class         = var.price_class
   html_ttl_seconds    = var.html_ttl_seconds
   asset_ttl_seconds   = var.asset_ttl_seconds
-  acm_cert_arn        = ""
-  use_default_cert    = true
+  acm_cert_arn        = "arn:aws:acm:us-east-1:796973484720:certificate/e8b0876e-9d34-4d01-8dd6-5ffc301e9335"
+  use_default_cert    = false
   tags                = local.tags
 }
 
