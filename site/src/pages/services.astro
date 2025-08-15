@@ -1,66 +1,92 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Keynotes — Nellie Borrero" description="Transformative keynote topics on inclusive leadership, championing the underrecognized, and sustaining inclusivity." path="/services">
+<Layout title="Services — Nellie Borrero" description="Professional speaking services, strategic advisory, and transformative keynotes on inclusive leadership and organizational culture." path="/services">
+	<!-- Services Section -->
 	<section class="container py-12">
-		<h1 class="text-3xl md:text-5xl font-bold text-plum">Keynotes</h1>
+		<h1 class="text-3xl md:text-5xl font-bold text-plum">Services</h1>
 		<p class="mt-3 max-w-prose text-lg">Bring Nellie to your audience</p>
 		
-		<!-- Main Keynote Topics -->
-		<div class="mt-12 space-y-12">
-			<article class="rounded-lg border border-gray-200 p-8 bg-white">
-				<h2 class="text-2xl font-bold text-plum mb-4">Championing the underrecognized</h2>
-				<h3 class="text-lg font-semibold text-gray-800 mb-3">How leaders can make careers thrive</h3>
-				<p class="text-gray-700 leading-relaxed">What does it mean to truly lead and advocate for underrepresented communities within organizations? In her book Unwavering, Nellie Borrero shows leaders how to help ensure equal opportunities for every employee and guide individuals from historically marginalized communities throughout their career journeys.</p>
+		<!-- Service Cards -->
+		<div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+			<article class="rounded-lg border border-gray-200 p-6 bg-white">
+				<h2 class="text-xl font-semibold text-plum mb-4">Global Speaking</h2>
+				<p class="text-gray-700 leading-relaxed">Transformative keynotes and presentations for corporations, conferences, and educational institutions. Engaging, story-driven content with actionable takeaways.</p>
 			</article>
 
-			<article class="rounded-lg border border-gray-200 p-8 bg-white">
-				<h2 class="text-2xl font-bold text-plum mb-4">The Inclusion Momentum</h2>
-				<h3 class="text-lg font-semibold text-gray-800 mb-3">Sustaining inclusivity in the workplace DNA</h3>
-				<p class="text-gray-700 leading-relaxed">Leaders often struggle to sustain Inclusion progress when they face new challenges or disruptions. Nellie offers a roadmap for leaders based on her own experience building and nurturing a culture of belonging and empowerment through lasting initiatives.</p>
+			<article class="rounded-lg border border-gray-200 p-6 bg-white">
+				<h2 class="text-xl font-semibold text-plum mb-4">Strategic Advisory</h2>
+				<p class="text-gray-700 leading-relaxed">Executive guidance on inclusion strategy, organizational transformation, and leadership accountability. Based on proven experience leading global change.</p>
 			</article>
 
-			<article class="rounded-lg border border-gray-200 p-8 bg-white">
-				<h2 class="text-2xl font-bold text-plum mb-4">Being unapologetically you</h2>
-				<h3 class="text-lg font-semibold text-gray-800 mb-3">Become an advocate for yourself</h3>
-				<p class="text-gray-700 leading-relaxed">Confidently stepping into your power and safeguarding your identity in the workplace can be challenging, especially for people from traditionally underrepresented populations. Through her personal story in Unwavering, Nellie flips the narrative and shows that what makes you different makes you powerful.</p>
+			<article class="rounded-lg border border-gray-200 p-6 bg-white">
+				<h2 class="text-xl font-semibold text-plum mb-4">Media Commentary</h2>
+				<p class="text-gray-700 leading-relaxed">Expert insights and thought leadership on inclusion, diversity, and workplace culture for media outlets, podcasts, and industry publications.</p>
 			</article>
 		</div>
 
-		<!-- Categories and Audiences Grid -->
+		<!-- Target Audiences and Categories -->
 		<div class="mt-16 grid gap-8 md:grid-cols-2">
 			<div class="rounded-lg border border-gray-200 p-6 bg-white">
-				<h3 class="text-xl font-semibold text-plum mb-4">Categories</h3>
+				<h3 class="text-xl font-semibold text-plum mb-4">Who We Serve</h3>
 				<ul class="space-y-2 text-gray-700">
-					<li>• Leadership</li>
-					<li>• Business management</li>
-					<li>• Corporate culture</li>
-					<li>• Change management</li>
-					<li>• Talent management life cycle</li>
-					<li>• Workforce dynamics: diversity, teamwork, motivation, equity and inclusiveness and more</li>
-					<li>• Generational workforce dynamics</li>
-					<li>• Aligning ERG strategy and leadership with business priorities</li>
+					<li>• Corporations, non-profits and educational institutions</li>
+					<li>• CEOs, C-suite executives, and board members</li>
+					<li>• Human Resources and D&I executives</li>
+					<li>• Executive teams and people leaders</li>
+					<li>• Professionals seeking inclusive, high-performing organizations</li>
+					<li>• Students and emerging leaders</li>
 				</ul>
 			</div>
 
 			<div class="rounded-lg border border-gray-200 p-6 bg-white">
-				<h3 class="text-xl font-semibold text-plum mb-4">Audiences</h3>
+				<h3 class="text-xl font-semibold text-plum mb-4">Expertise Areas</h3>
 				<ul class="space-y-2 text-gray-700">
-					<li>• Corporations, non-profits and educational institutions</li>
-					<li>• CEOs, C-suite executives</li>
-					<li>• Board members</li>
-					<li>• Executive teams</li>
-					<li>• Human Resources executives</li>
-					<li>• Diversity, Equity and Inclusion executives/thought leaders</li>
-					<li>• People leaders and management teams</li>
-					<li>• Professionals at any career level who crave a more inclusive, high trust, high-performing organization</li>
-					<li>• Professionals at any career level who are looking to build, nurture, and evolve their personal brand and learn how to be unapologetically themselves</li>
-					<li>• Students</li>
+					<li>• Leadership and business management</li>
+					<li>• Corporate culture and change management</li>
+					<li>• Talent management life cycle</li>
+					<li>• Workforce dynamics and team motivation</li>
+					<li>• Diversity, equity, and inclusion strategy</li>
+					<li>• ERG strategy and business alignment</li>
 				</ul>
 			</div>
 		</div>
+	</section>
 
-		<div class="mt-12 text-center">
+	<!-- Keynotes Section -->
+	<section class="bg-gray-50 py-16">
+		<div class="container">
+			<h2 class="text-3xl md:text-4xl font-bold text-plum text-center mb-4">Keynote Topics</h2>
+			<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Transformative speaking engagements that inspire action and drive meaningful change</p>
+			
+			<!-- Keynote Topics -->
+			<div class="space-y-8">
+				<article class="rounded-lg border border-gray-200 p-8 bg-white">
+					<h3 class="text-2xl font-bold text-plum mb-4">Championing the underrecognized</h3>
+					<h4 class="text-lg font-semibold text-gray-800 mb-3">How leaders can make careers thrive</h4>
+					<p class="text-gray-700 leading-relaxed">What does it mean to truly lead and advocate for underrepresented communities within organizations? In her book Unwavering, Nellie Borrero shows leaders how to help ensure equal opportunities for every employee and guide individuals from historically marginalized communities throughout their career journeys.</p>
+				</article>
+
+				<article class="rounded-lg border border-gray-200 p-8 bg-white">
+					<h3 class="text-2xl font-bold text-plum mb-4">The Inclusion Momentum</h3>
+					<h4 class="text-lg font-semibold text-gray-800 mb-3">Sustaining inclusivity in the workplace DNA</h4>
+					<p class="text-gray-700 leading-relaxed">Leaders often struggle to sustain Inclusion progress when they face new challenges or disruptions. Nellie offers a roadmap for leaders based on her own experience building and nurturing a culture of belonging and empowerment through lasting initiatives.</p>
+				</article>
+
+				<article class="rounded-lg border border-gray-200 p-8 bg-white">
+					<h3 class="text-2xl font-bold text-plum mb-4">Being unapologetically you</h3>
+					<h4 class="text-lg font-semibold text-gray-800 mb-3">Become an advocate for yourself</h4>
+					<p class="text-gray-700 leading-relaxed">Confidently stepping into your power and safeguarding your identity in the workplace can be challenging, especially for people from traditionally underrepresented populations. Through her personal story in Unwavering, Nellie flips the narrative and shows that what makes you different makes you powerful.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact Section -->
+	<section class="container py-12">
+		<div class="text-center">
+			<h2 class="text-2xl font-bold text-plum mb-4">Ready to Transform Your Organization?</h2>
+			<p class="text-gray-600 mb-8 max-w-2xl mx-auto">Book Nellie for your next event, strategic initiative, or organizational transformation.</p>
 			<a class="btn-primary text-lg px-8 py-4" href="mailto:contact@nellieborrero.com">Contact Nellie Borrero</a>
 		</div>
 	</section>
