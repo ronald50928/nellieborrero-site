@@ -76,7 +76,7 @@ module "dns" {
 
 module "oidc" {
   source = "../../modules/iam_oidc_github"
-  repo   = "${var.domain_name}/nellieborrero-site"
+  repo   = "ronald50928/nellieborrero-site"
   bucket_arn = "arn:aws:s3:::${module.s3.bucket_name}"
   distribution_arn = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${module.cdn.distribution_id}"
 }
