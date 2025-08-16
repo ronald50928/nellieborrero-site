@@ -23,6 +23,11 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+variable "enable_cross_region_replication" {
+  type    = bool
+  default = false
+  description = "Enable cross-region replication for disaster recovery"
+}
 
 resource "aws_s3_bucket" "site" {
   bucket = var.bucket_name

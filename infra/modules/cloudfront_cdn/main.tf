@@ -33,6 +33,14 @@ variable "tags" {
   default = {}
 }
 
+resource "aws_cloudfront_function" "security_headers" {
+  name    = "security-headers-${replace(var.domain_name, ".", "-")}"
+  runtime = "cloudfront-js-1.0"
+  comment = "Add security headers to responses"
+  publish = true
+  code    = file("${path.module}/security-headers.js")
+}
+
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "oac-${var.domain_name}"
   description                       = "OAC for ${var.domain_name}"
@@ -67,6 +75,11 @@ resource "aws_cloudfront_distribution" "this" {
     default_ttl = var.asset_ttl_seconds
     max_ttl     = var.asset_ttl_seconds
     min_ttl     = 0
+
+    function_association {
+      event_type   = "viewer-response"
+      function_arn = aws_cloudfront_function.security_headers.arn
+    }
   }
 
   custom_error_response {

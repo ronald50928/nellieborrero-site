@@ -1,5 +1,7 @@
 ## Nellie Borrero — Site + Infra
 
+> **Design Philosophy**: This site's logo and architecture are designed to embody thoughtfulness, communication, and timeless storytelling — core principles that reflect Nellie's approach to leadership excellence.
+
 ### Structure
 - `site/`: Astro static site with Tailwind
 - `infra/`: Terraform modules and prod env
