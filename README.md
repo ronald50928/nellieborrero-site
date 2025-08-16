@@ -33,3 +33,4 @@ Variables of interest:
 
 Est. cost: $5–$15/mo (CloudFront dominates). No servers/DBs.
 
+# Test deployment with new secrets
