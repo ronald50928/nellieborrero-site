@@ -60,6 +60,45 @@ resource "aws_route53_record" "www_aaaa" {
   }
 }
 
+# Email DNS Records for Microsoft/Outlook Email
+# Combined TXT Records (domain verification + SPF)
+resource "aws_route53_record" "email_txt_combined" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = var.domain_name
+  type    = "TXT"
+  ttl     = 300
+  records = [
+    "MS=ms16567308",
+    "v=spf1 include:secureserver.net -all"
+  ]
+}
+
+# CNAME Records for email services
+resource "aws_route53_record" "email_autodiscover" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = "autodiscover.${var.domain_name}"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["autodiscover.outlook.com"]
+}
+
+resource "aws_route53_record" "email_cname" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = "email.${var.domain_name}"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["email.secureserver.net"]
+}
+
+# MX Record for mail routing
+resource "aws_route53_record" "email_mx" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = var.domain_name
+  type    = "MX"
+  ttl     = 300
+  records = ["0 nellieborrero-com.mail.protection.outlook.com"]
+}
+
 output "hosted_zone_id" { value = aws_route53_zone.this.zone_id }
 output "nameservers" { value = aws_route53_zone.this.name_servers }
 
