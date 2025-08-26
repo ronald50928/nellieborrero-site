@@ -41,6 +41,14 @@ resource "aws_cloudfront_function" "security_headers" {
   code    = file("${path.module}/security-headers.js")
 }
 
+resource "aws_cloudfront_function" "url_rewrite" {
+  name    = "url-rewrite-${replace(var.domain_name, ".", "-")}"
+  runtime = "cloudfront-js-1.0"
+  comment = "Rewrite URLs for directory-style routing"
+  publish = true
+  code    = file("${path.module}/url-rewrite.js")
+}
+
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "oac-${var.domain_name}"
   description                       = "OAC for ${var.domain_name}"
@@ -77,20 +85,51 @@ resource "aws_cloudfront_distribution" "this" {
     min_ttl     = 0
 
     function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.url_rewrite.arn
+    }
+    function_association {
       event_type   = "viewer-response"
       function_arn = aws_cloudfront_function.security_headers.arn
     }
   }
 
+  # Cache behavior for HTML files with shorter TTL
+  ordered_cache_behavior {
+    path_pattern           = "*.html"
+    target_origin_id       = "s3-origin"
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+
+    cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # Managed-CachingDisabled
+
+    default_ttl = var.html_ttl_seconds
+    max_ttl     = var.html_ttl_seconds
+    min_ttl     = 0
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.url_rewrite.arn
+    }
+    function_association {
+      event_type   = "viewer-response"
+      function_arn = aws_cloudfront_function.security_headers.arn
+    }
+  }
+
+  # Handle directory-style URLs by trying index.html first
   custom_error_response {
     error_code            = 403
     response_code         = 200
-    response_page_path    = "/index.html"
+    response_page_path    = "/404.html"
   }
   custom_error_response {
     error_code            = 404
     response_code         = 200
-    response_page_path    = "/index.html"
+    response_page_path    = "/404.html"
   }
 
   restrictions {
