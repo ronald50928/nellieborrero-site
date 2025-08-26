@@ -1,7 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
 const publications = [
   {
@@ -62,9 +60,7 @@ const otherPublications = publications.filter(pub => !pub.featured);
   title="Publications | Nellie Borrero" 
   description="Explore Nellie Borrero's published articles and thought leadership pieces on inclusion, diversity, leadership, and personal branding across top business publications."
 >
-  <Header />
-  
-  <main class="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+  <div class="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
     <div class="container mx-auto px-4 py-16">
       <!-- Header Section -->
       <div class="text-center mb-12">
@@ -173,9 +169,7 @@ const otherPublications = publications.filter(pub => !pub.featured);
         </a>
       </section>
     </div>
-  </main>
-
-  <Footer />
+  </div>
 </Layout>
 
 <style>
