@@ -1,0 +1,195 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const publications = [
+  {
+    title: "Why Personal Boundaries Matter Now More Than Ever – And How to Enforce Them",
+    publication: "Chief",
+    date: "2024",
+    url: "https://chief.com/articles/why-personal-boundaries-matter-now-more-than-ever-and-how-to-enforce-them",
+    description: "Nellie Borrero shares why establishing personal boundaries is such a crucial practice for women leaders and provides actionable advice on protecting your worth and wellbeing as an executive.",
+    featured: true
+  },
+  {
+    title: "Why The Gratitude Trap Prevents Women Leaders from Controlling Their Career Narrative",
+    publication: "Chief", 
+    date: "2024",
+    url: "https://chief.com/articles/why-the-gratitude-trap-prevents-women-leaders-from-controlling-their-career-narrative",
+    description: "From 'Unwavering,' Accenture executive Nellie Borrero outlines how women and women of color can control the narrative about their careers by boldly embracing their accomplishments and ambitions.",
+    featured: true
+  },
+  {
+    title: "How to Create a Personal Brand to Lead Through Challenges",
+    publication: "Fast Company",
+    date: "April 2024", 
+    url: "https://www.fastcompany.com/91090204/my-personal-brand-led-me-through-challenges-this-is-how-you-can-craft-yours-to-do-the-same",
+    description: "My personal brand led me through challenges. This is how you can craft yours to do the same.",
+    featured: true
+  },
+  {
+    title: "Strategies: How to Claim Your Own Space",
+    publication: "The Business Journals",
+    date: "July 2024",
+    url: "https://www.bizjournals.com/bizwomen/news/mentoring-matters/2024/07/strategies-claim-your-own-space.html", 
+    description: "Practical strategies for claiming your earned space in professional environments and leadership roles.",
+    featured: false
+  },
+  {
+    title: "Résumés Get An AI Help On LinkedIn | Wells Fargo Fires Employees Faking Work",
+    publication: "Forbes",
+    date: "June 2024",
+    url: "https://www.forbes.com/sites/mariagraciasantillanalinares/2024/06/18/rsums-get-an-ai-help-on-linkedinwells-fargo-fires-employees-faking-work/",
+    description: "Insights on AI's impact on professional development and workplace integrity.",
+    featured: true
+  },
+  {
+    title: "Claim Your Earned Space: How Courage Leads to Connection",
+    publication: "Porchlight Book Company",
+    date: "2024",
+    url: "https://www.porchlightbooks.com/blogs/changethis/claim-your-earned-space-how-courage-leads-to-connection",
+    description: "A deep dive into how courage creates authentic connections and helps leaders claim their rightful place.",
+    featured: false
+  }
+];
+
+const featuredPublications = publications.filter(pub => pub.featured);
+const otherPublications = publications.filter(pub => !pub.featured);
+---
+
+<Layout 
+  title="Publications | Nellie Borrero" 
+  description="Explore Nellie Borrero's published articles and thought leadership pieces on inclusion, diversity, leadership, and personal branding across top business publications."
+>
+  <Header />
+  
+  <main class="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+    <div class="container mx-auto px-4 py-16">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Publications & <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Thought Leadership</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Explore insights on inclusion, diversity, leadership, and personal branding from leading business publications.
+        </p>
+      </div>
+
+      <!-- Featured Articles -->
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Featured Articles</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredPublications.map((article) => (
+            <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+              <div class="p-6">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-sm font-semibold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
+                    {article.publication}
+                  </span>
+                  <span class="text-sm text-gray-500">{article.date}</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3 line-clamp-2">
+                  {article.title}
+                </h3>
+                <p class="text-gray-600 mb-4 line-clamp-3">
+                  {article.description}
+                </p>
+                <a 
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium transition-colors duration-200"
+                >
+                  Read Article
+                  <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Other Publications -->
+      {otherPublications.length > 0 && (
+        <section class="mb-16">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">Additional Publications</h2>
+          <div class="space-y-6">
+            {otherPublications.map((article) => (
+              <article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                  <div class="flex-1">
+                    <div class="flex items-center mb-2">
+                      <span class="text-sm font-semibold text-purple-600 bg-purple-100 px-3 py-1 rounded-full mr-3">
+                        {article.publication}
+                      </span>
+                      <span class="text-sm text-gray-500">{article.date}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                      {article.title}
+                    </h3>
+                    <p class="text-gray-600">
+                      {article.description}
+                    </p>
+                  </div>
+                  <div class="mt-4 md:mt-0 md:ml-6">
+                    <a 
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium transition-colors duration-200"
+                    >
+                      Read Article
+                      <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Call to Action -->
+      <section class="text-center bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          Interested in Collaboration?
+        </h2>
+        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+          Nellie is available for speaking engagements, thought leadership pieces, and collaborative content creation on topics of inclusion, diversity, and leadership.
+        </p>
+        <a 
+          href="/about#contact" 
+          class="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+        >
+          Get in Touch
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
