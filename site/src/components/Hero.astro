@@ -10,9 +10,377 @@
                 <a class="btn-secondary" href="/services/index.html">Explore Services</a>
             </div>
         </div>
-        <figure class="justify-self-center">
-            <img src="/portrait.svg" alt="Portrait of Nellie Borrero" width="560" height="700" class="rounded-lg" loading="eager" />
-        </figure>
+        <div class="justify-self-center typewriter-container">
+            <div class="typewriter-page">
+                            <p class="typewriter-text" data-text="Thoughtfulness, communication, timeless storytelling…" aria-live="polite" aria-atomic="true">
+                <span class="typed" id="typedText"></span>
+                <noscript>Thoughtfulness, communication, timeless storytelling…</noscript>
+            </p>
+            <div class="signature-area">
+                <span class="signature" id="signatureText" aria-live="polite"></span>
+                <noscript>Nellie</noscript>
+            </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<style>
+  .typewriter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    width: 100%;
+    max-width: 560px;
+    perspective: 1000px;
+  }
+  
+  .typewriter-page {
+    background: 
+      /* Paper texture noise */
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 108, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(120, 119, 108, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(120, 119, 108, 0.02) 0%, transparent 50%),
+      /* Subtle aging/yellowing */
+      linear-gradient(135deg, #fefefe 0%, #faf9f7 50%, #f8f7f4 100%);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 40px 36px;
+    box-shadow: 
+      0 4px 6px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      /* Paper grain shadow */
+      inset 0 0 0 1px rgba(120, 119, 108, 0.05);
+    position: relative;
+    transform: rotateX(2deg) rotateY(-1deg);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 480px;
+    /* Fixed dimensions like real paper */
+    min-height: 240px;
+    height: 240px;
+    /* Position text like typewriter paper - top-left aligned */
+    display: block;
+    overflow: hidden;
+  }
+  
+  /* Paper texture overlay */
+  .typewriter-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Fine paper grain */
+      radial-gradient(circle at 1px 1px, rgba(120, 119, 108, 0.15) 1px, transparent 0);
+    background-size: 20px 20px;
+    opacity: 0.4;
+    pointer-events: none;
+    border-radius: 8px;
+  }
+  
+  .typewriter-page:hover {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  
+  .typewriter-text {
+    font-family: 'Courier New', 'Courier', 'Lucida Console', 'Monaco', monospace;
+    font-size: clamp(16px, 3.5vw, 22px);
+    line-height: 1.7;
+    color: #2a2a2a;
+    text-align: left;
+    letter-spacing: 0.8px;
+    word-break: break-word;
+    position: absolute;
+    top: 40px;
+    left: 36px;
+    right: 36px;
+    z-index: 1;
+    font-weight: 400;
+    margin: 0;
+    /* Fixed positioning - text appears in place like real typewriter */
+    width: calc(100% - 72px);
+    /* Ink bleeding effects */
+    text-shadow: 
+      /* Main ink impression */
+      0 0 0.5px rgba(42, 42, 42, 0.8),
+      /* Subtle ink bleeding */
+      0.2px 0.1px 0.3px rgba(42, 42, 42, 0.3),
+      -0.1px 0.2px 0.2px rgba(42, 42, 42, 0.2),
+      /* Paper fiber interaction */
+      0 0.3px 0.4px rgba(42, 42, 42, 0.15);
+    /* Slight imperfection filter */
+    filter: contrast(1.02) brightness(0.98);
+  }
+  
+  .typed {
+    white-space: pre-wrap;
+    display: inline;
+  }
+  
+  .signature-area {
+    position: absolute;
+    bottom: 40px;
+    right: 36px;
+    z-index: 2;
+  }
+  
+  .signature {
+    font-family: 'Courier New', 'Courier', 'Lucida Console', 'Monaco', monospace;
+    font-size: clamp(16px, 3.5vw, 20px);
+    color: #2a2a2a;
+    font-weight: 400;
+    /* Same typewriter ink effects as main text */
+    text-shadow: 
+      0 0 0.5px rgba(42, 42, 42, 0.8),
+      0.2px 0.1px 0.3px rgba(42, 42, 42, 0.3),
+      -0.1px 0.2px 0.2px rgba(42, 42, 42, 0.2),
+      0 0.3px 0.4px rgba(42, 42, 42, 0.15);
+    filter: contrast(1.02) brightness(0.98);
+    letter-spacing: 0.8px;
+  }
+  
+
+  
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter-page {
+      transform: none;
+      /* Simpler background for reduced motion */
+      background: linear-gradient(135deg, #fefefe 0%, #faf9f7 100%);
+    }
+    
+    .typewriter-page:hover {
+      transform: none;
+    }
+    
+    .typewriter-page::before {
+      opacity: 0.2;
+    }
+    
+    .typewriter-text {
+      /* Reduce ink effects for motion sensitivity */
+      text-shadow: 0 0 0.3px rgba(42, 42, 42, 0.6);
+      filter: none;
+    }
+    
+
+  }
+  
+  @media (max-width: 768px) {
+    .typewriter-container {
+      min-height: 280px;
+      padding: 0 16px;
+    }
+    
+    .typewriter-page {
+      padding: 32px 24px;
+      transform: rotateX(1deg) rotateY(-0.5deg);
+      max-width: 380px;
+      height: 220px;
+      min-height: 220px;
+    }
+    
+    .typewriter-text {
+      font-size: clamp(14px, 4.2vw, 18px);
+      line-height: 1.6;
+      letter-spacing: 0.6px;
+      top: 32px;
+      left: 24px;
+      right: 24px;
+      width: calc(100% - 48px);
+    }
+    
+    .signature-area {
+      bottom: 32px;
+      right: 24px;
+    }
+    
+    .signature {
+      font-size: clamp(14px, 4vw, 18px);
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const el = document.getElementById('typedText');
+    const signatureEl = document.getElementById('signatureText');
+    if (!el || !signatureEl) return;
+
+    const container = el.closest('.typewriter-container');
+    const full = el.parentElement?.getAttribute('data-text') || '';
+    const signature = 'Nellie';
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+
+    // If user prefers reduced motion, show full text immediately
+    if (prefersReduced) {
+      el.textContent = full;
+      signatureEl.textContent = signature;
+      return;
+    }
+
+    let started = false;
+    const type = () => {
+      if (started) return;
+      started = true;
+      
+      // Pre-process text to handle word wrapping intelligently
+      const words = full.split(' ');
+      let processedText = '';
+      let currentLine = '';
+      
+      // Create a temporary element to measure text width
+      const measurer = document.createElement('span');
+      const elStyles = window.getComputedStyle(el);
+      measurer.style.fontFamily = elStyles.fontFamily;
+      measurer.style.fontSize = elStyles.fontSize;
+      measurer.style.fontWeight = elStyles.fontWeight;
+      measurer.style.letterSpacing = elStyles.letterSpacing;
+      measurer.style.position = 'absolute';
+      measurer.style.visibility = 'hidden';
+      measurer.style.whiteSpace = 'nowrap';
+      measurer.style.top = '-9999px';
+      document.body.appendChild(measurer);
+      
+      // Get the actual available width more accurately
+      const containerWidth = el.offsetWidth - 10; // Small buffer for safety
+      
+      for (let w = 0; w < words.length; w++) {
+        const word = words[w];
+        const testLine = currentLine + (currentLine ? ' ' : '') + word;
+        
+        measurer.textContent = testLine;
+        const testWidth = measurer.offsetWidth;
+        
+        // Be more conservative - use 90% of available width to ensure no wrapping
+        if (testWidth <= (containerWidth * 0.90) || currentLine === '') {
+          currentLine = testLine;
+        } else {
+          // Add current line and start new line with the word
+          processedText += currentLine + '\n';
+          currentLine = word;
+        }
+      }
+      
+      // Make sure to add the final line
+      if (currentLine) {
+        processedText += currentLine;
+      }
+      
+      // Fallback: if processing failed, use original text
+      if (!processedText.trim()) {
+        processedText = full;
+      }
+      
+      document.body.removeChild(measurer);
+      
+      // Now type the processed text
+      let i = 0;
+      
+      const step = () => {
+        if (i <= processedText.length) {
+          const currentText = processedText.slice(0, i);
+          
+          // Simply set the text content without blinking animations
+          el.textContent = currentText;
+          
+          // Human-like typing with realistic variations
+          const ch = processedText.charAt(i - 1);
+          let delay;
+          
+          if (ch === ' ') {
+            // Space after word - quick
+            delay = 50 + Math.random() * 30;
+          } else if (ch === '\n') {
+            // Line break - pause like hitting return
+            delay = 300 + Math.random() * 200;
+          } else if (/[,.…]/.test(ch)) {
+            // Comma or ellipsis - pause to think
+            delay = 250 + Math.random() * 150;
+          } else if (/[;:!?]/.test(ch)) {
+            // End punctuation - longer pause
+            delay = 350 + Math.random() * 200;
+          } else if (/[aeiouAEIOU]/.test(ch)) {
+            // Vowels - slightly faster
+            delay = 60 + Math.random() * 40;
+          } else if (/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/.test(ch)) {
+            // Consonants - normal speed with variation
+            delay = 80 + Math.random() * 50;
+          } else {
+            // Default timing
+            delay = 70 + Math.random() * 40;
+          }
+          
+          // Add occasional hesitation (like thinking or finger slip)
+          if (Math.random() < 0.12) {
+            delay += 150 + Math.random() * 200;
+          }
+          
+          i++;
+          setTimeout(step, delay);
+        } else {
+          // Main text is complete, now type the signature
+          setTimeout(() => {
+            typeSignature();
+          }, 800); // Pause before signing
+        }
+      };
+      
+      const typeSignature = () => {
+        
+        // Set up the full signature space with invisible characters
+        signatureEl.innerHTML = signature.replace(/./g, '<span style="visibility: hidden;">$&</span>');
+        
+        // Now reveal characters one by one
+        setTimeout(() => {
+          let j = 0;
+          const signatureStep = () => {
+            if (j <= signature.length) {
+              // Rebuild the signature with visible and invisible parts
+              let html = '';
+              for (let k = 0; k < signature.length; k++) {
+                const char = signature.charAt(k);
+                if (k < j) {
+                  html += `<span>${char}</span>`;
+                } else {
+                  html += `<span style="visibility: hidden;">${char}</span>`;
+                }
+              }
+              signatureEl.innerHTML = html;
+              
+              // Signature typing is slower and more deliberate
+              const delay = 150 + Math.random() * 100;
+              j++;
+              setTimeout(signatureStep, delay);
+            }
+          };
+          signatureStep();
+        }, 100);
+      };
+      
+      step();
+    };
+
+    // Use IntersectionObserver to start typing when container enters viewport
+    if ('IntersectionObserver' in window && container) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            type();
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+      
+      io.observe(container);
+    } else {
+      // Fallback for browsers without IntersectionObserver
+      type();
+    }
+  })();
+</script>
 
