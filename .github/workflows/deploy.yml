@@ -7,13 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-  authenticate:
-    uses: ronald50928/.github/.github/workflows/aws-auth.yml@main
-    with:
-      role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-      aws-region: 'us-east-1'
-    secrets: inherit
-
   build:
     uses: ronald50928/.github/.github/workflows/node-build.yml@main
     with:
@@ -23,12 +16,13 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: [authenticate, build]
+    needs: build
     uses: ronald50928/.github/.github/workflows/s3-cloudfront-deploy.yml@main
     with:
       s3-bucket: ${{ secrets.S3_BUCKET }}
       cloudfront-distribution-id: ${{ secrets.CF_DISTRIBUTION_ID }}
       build-artifact-name: ${{ needs.build.outputs.build-artifact-name }}
       working-directory: 'site'
+      role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+      aws-region: 'us-east-1'
     secrets: inherit
-
