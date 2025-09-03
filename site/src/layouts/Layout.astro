@@ -31,6 +31,14 @@ const {
 		<link rel="icon" type="image/webp" sizes="16x16" href="/favicon-16.webp" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		
+		<!-- Progressive Web App -->
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="theme-color" content="#1e293b" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<meta name="apple-mobile-web-app-title" content="Nellie Borrero" />
+		<link rel="apple-touch-icon" href="/favicon-32.webp" />
+		
 		<!-- Preload Critical Resources -->
 		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
@@ -59,5 +67,18 @@ const {
 			<slot />
 		</main>
 		<Footer />
+		
+		<!-- Service Worker Registration -->
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', function() {
+					navigator.serviceWorker.register('/sw.js').then(function(registration) {
+						console.log('ServiceWorker registration successful with scope: ', registration.scope);
+					}, function(err) {
+						console.log('ServiceWorker registration failed: ', err);
+					});
+				});
+			}
+		</script>
 	</body>
 </html>

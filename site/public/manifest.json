@@ -1,0 +1,51 @@
+{
+  "name": "Nellie Borrero - Leadership Excellence Pioneer",
+  "short_name": "Nellie Borrero",
+  "description": "Global speaker, author, and media commentator. Transformative keynotes on leadership excellence.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-16.webp",
+      "sizes": "16x16",
+      "type": "image/webp"
+    },
+    {
+      "src": "/favicon-32.webp",
+      "sizes": "32x32",
+      "type": "image/webp"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["business", "education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Learn about Nellie Borrero's background and expertise",
+      "url": "/about",
+      "icons": [{ "src": "/favicon-32.webp", "sizes": "32x32" }]
+    },
+    {
+      "name": "Services",
+      "short_name": "Services",
+      "description": "Leadership development and speaking services",
+      "url": "/services",
+      "icons": [{ "src": "/favicon-32.webp", "sizes": "32x32" }]
+    },
+    {
+      "name": "Publications",
+      "short_name": "Publications",
+      "description": "Articles and media appearances",
+      "url": "/publications",
+      "icons": [{ "src": "/favicon-32.webp", "sizes": "32x32" }]
+    }
+  ]
+}
