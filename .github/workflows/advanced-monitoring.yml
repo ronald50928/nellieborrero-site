@@ -1,0 +1,89 @@
+name: 🔍 Advanced Site Monitoring & Health Checks
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+env:
+  SITE_URL: 'https://nellieborrero.com'
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+  # Comprehensive Health Monitoring
+  health-monitoring:
+    name: 🏥 Health & Performance Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌐 Site Availability Check
+        id: availability
+        run: |
+          echo "🔍 Checking Nellie Borrero site availability..."
+          
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.SITE_URL }}" || echo "000")
+          RESPONSE_TIME=$(curl -s -o /dev/null -w "%{time_total}" "${{ env.SITE_URL }}" || echo "0")
+          
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "response_time=$RESPONSE_TIME" >> $GITHUB_OUTPUT
+          
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ NellieBorrero.com is UP (Status: $STATUS, Response: ${RESPONSE_TIME}s)"
+          else
+            echo "❌ NellieBorrero.com is DOWN (Status: $STATUS)"
+            exit 1
+          fi
+
+      - name: 🚀 Performance Analysis
+        id: performance
+        run: |
+          echo "📊 Running performance analysis for NellieBorrero.com..."
+          
+          npm install -g lighthouse
+          
+          lighthouse "${{ env.SITE_URL }}" \
+            --output=json \
+            --output-path=./lighthouse-report.json \
+            --chrome-flags="--headless --no-sandbox" \
+            --quiet
+          
+          PERFORMANCE=$(cat lighthouse-report.json | jq '.categories.performance.score * 100')
+          ACCESSIBILITY=$(cat lighthouse-report.json | jq '.categories.accessibility.score * 100')
+          
+          echo "performance=$PERFORMANCE" >> $GITHUB_OUTPUT
+          echo "accessibility=$ACCESSIBILITY" >> $GITHUB_OUTPUT
+          
+          echo "📈 NellieBorrero.com Performance Scores:"
+          echo "  Performance: $PERFORMANCE/100"
+          echo "  Accessibility: $ACCESSIBILITY/100"
+
+      - name: 📱 Send Health Alert
+        if: env.SLACK_WEBHOOK && (steps.availability.outputs.status != '200' || steps.performance.outputs.performance < 80)
+        run: |
+          STATUS="${{ steps.availability.outputs.status }}"
+          PERF="${{ steps.performance.outputs.performance }}"
+          
+          if [ "$STATUS" != "200" ]; then
+            MESSAGE="🚨 NellieBorrero.com is DOWN! Status: $STATUS"
+            COLOR="#FF0000"
+          elif [ $(echo "$PERF < 80" | bc) = 1 ]; then
+            MESSAGE="⚠️ NellieBorrero.com performance degraded: ${PERF}/100"
+            COLOR="#FFA500"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"$COLOR\",
+                \"title\": \"🎨 Nellie Borrero Site Health Alert\",
+                \"text\": \"$MESSAGE\",
+                \"fields\": [
+                  {\"title\": \"Site\", \"value\": \"${{ env.SITE_URL }}\", \"short\": true},
+                  {\"title\": \"Response Time\", \"value\": \"${{ steps.availability.outputs.response_time }}s\", \"short\": true}
+                ],
+                \"footer\": \"Portfolio Monitoring Bot\",
+                \"ts\": $(date +%s)
+              }]
+            }" \
+            "${{ env.SLACK_WEBHOOK }}"
