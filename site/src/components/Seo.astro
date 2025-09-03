@@ -11,25 +11,37 @@ type Props = {
 
 const { title, description, path = '/', openGraph = {} } = Astro.props as Props;
 const url = new URL(path, `https://${site.domain}`).toString();
+const imageUrl = `https://${site.domain}/og.jpg`;
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="keywords" content="leadership development, executive coaching, organizational development, global speaker, author, media commentator, Accenture, leadership excellence, inclusive leadership" />
+<meta name="author" content="Nellie Borrero" />
 <link rel="canonical" href={url} />
 <meta name="theme-color" content="#5B2D8C" />
 <meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
 <!-- OpenGraph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={`https://${site.domain}/og.jpg`} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@nellieborrero" />
+<meta name="twitter:creator" content="@nellieborrero" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={`https://${site.domain}/og.jpg`} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={title} />
 
 <!-- Schema.org -->
 <script type="application/ld+json" set:html={JSON.stringify({
@@ -37,14 +49,61 @@ const url = new URL(path, `https://${site.domain}`).toString();
   "@type": "WebSite",
   name: site.name,
   url,
-  description
+  description,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${url}?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
 })} />
-<script type="application/ld+json" set:html={JSON.stringify(person)} />
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Nellie Borrero",
+  jobTitle: "Leadership Development Expert & Executive Coach",
+  description: "Global speaker, author, and media commentator specializing in leadership excellence and organizational development",
+  url: `https://${site.domain}`,
+  image: `https://${site.domain}/nellie-about.webp`,
+  sameAs: [
+    "https://linkedin.com/in/nellieborrero",
+    "https://twitter.com/nellieborrero"
+  ],
+  knowsAbout: [
+    "Leadership Development",
+    "Executive Coaching", 
+    "Organizational Development",
+    "Inclusive Leadership",
+    "Strategic Advisory",
+    "Public Speaking"
+  ],
+  hasOccupation: {
+    "@type": "Occupation",
+    name: "Leadership Development Expert",
+    occupationLocation: {
+      "@type": "Place",
+      name: "Global"
+    }
+  },
+  alumniOf: {
+    "@type": "Organization",
+    name: "Accenture"
+  }
+})} />
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Nellie Borrero LLC",
   url: `https://${site.domain}`,
-  logo: `https://${site.domain}/logo.svg`
+  logo: `https://${site.domain}/logo.svg`,
+  description: "Leadership development and executive coaching services",
+  founder: {
+    "@type": "Person",
+    name: "Nellie Borrero"
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "contact@nellieborrero.com",
+    contactType: "Business Inquiries"
+  }
 })} />
 

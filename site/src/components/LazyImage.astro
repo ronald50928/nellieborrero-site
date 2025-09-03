@@ -1,0 +1,110 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  sizes?: string;
+}
+
+const { 
+  src, 
+  alt, 
+  width, 
+  height, 
+  class: className = '', 
+  loading = 'lazy',
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+} = Astro.props;
+
+// Generate WebP version path
+const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+const hasWebP = webpSrc !== src;
+---
+
+<picture class={className}>
+  {hasWebP && (
+    <source srcset={webpSrc} type="image/webp" sizes={sizes} />
+  )}
+  <img 
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+    sizes={sizes}
+    class="lazy-image"
+  />
+</picture>
+
+<script>
+  // Intersection Observer for lazy loading enhancement
+  class LazyImageLoader {
+    constructor() {
+      this.imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            
+            // Add fade-in effect
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.3s ease';
+            
+            img.onload = () => {
+              img.style.opacity = '1';
+            };
+            
+            // If image is already loaded, show immediately
+            if (img.complete) {
+              img.style.opacity = '1';
+            }
+            
+            observer.unobserve(img);
+          }
+        });
+      }, {
+        rootMargin: '50px 0px',
+        threshold: 0.01
+      });
+      
+      this.init();
+    }
+    
+    init() {
+      const lazyImages = document.querySelectorAll('img.lazy-image');
+      lazyImages.forEach(img => {
+        this.imageObserver.observe(img);
+      });
+    }
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new LazyImageLoader();
+    });
+  } else {
+    new LazyImageLoader();
+  }
+</script>
+
+<style>
+  .lazy-image {
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Optimize for Core Web Vitals */
+  picture {
+    display: block;
+    overflow: hidden;
+  }
+  
+  picture img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>

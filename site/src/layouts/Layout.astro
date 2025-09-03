@@ -18,10 +18,23 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<!-- Security Headers -->
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self'; connect-src 'self' https://www.google-analytics.com https://plausible.io; frame-ancestors 'none';">
+		<meta http-equiv="X-Frame-Options" content="DENY">
+		<meta http-equiv="X-Content-Type-Options" content="nosniff">
+		<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+		
+		<!-- Optimized Favicons -->
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+		<link rel="icon" type="image/webp" sizes="32x32" href="/favicon-32.webp" />
+		<link rel="icon" type="image/webp" sizes="16x16" href="/favicon-16.webp" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		
+		<!-- Preload Critical Resources -->
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></noscript>
+		
 		<Seo {title} {description} {path} {openGraph} />
 		{site.analyticsEnabled && (<script defer data-domain={site.domain} src="https://plausible.io/js/script.js"></script>)}
 		{site.googleAnalyticsId && (
