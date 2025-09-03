@@ -1,73 +1,34 @@
-name: ci-cd
+name: CI/CD for Nellie Borrero Site
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
     branches: [ main ]
-
-permissions:
-  id-token: write
-  contents: read
-
-env:
-  NODE_VERSION: '20'
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  pr:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: site
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: site/package.json
-      - run: npm ci
-      - run: npm run build
-      - name: Install Lighthouse CI
-        run: npm i -g @lhci/cli@0.13.x
-      - name: Run Lighthouse CI (static dist)
-        run: npx lhci autorun --collect.staticDistDir=dist --assert.assertions.performance>=0.95 --assert.assertions.accessibility>=0.95 --assert.assertions.seo>=0.95 --assert.assertions.best-practices>=0.95 || exit 1
+  authenticate:
+    uses: ronald50928/.github/.github/workflows/aws-auth.yml@main
+    with:
+      role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+      aws-region: 'us-east-1'
+    secrets: inherit
+
+  build:
+    uses: ronald50928/.github/.github/workflows/node-build.yml@main
+    with:
+      working-directory: 'site'
+      cache-dependency-path: 'site/package.json'
+    secrets: inherit
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: site
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: site/package.json
-      - run: npm ci
-      - run: npm run build
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Sync HTML with short TTL
-        run: |
-          aws s3 sync dist s3://${{ secrets.S3_BUCKET }} \
-            --exclude "*" --include "*.html" \
-            --cache-control "public,max-age=300" --content-type text/html
-      - name: Sync assets with long TTL immutable
-        run: |
-          aws s3 sync dist s3://${{ secrets.S3_BUCKET }} \
-            --delete \
-            --exclude "*.html" \
-            --cache-control "public,max-age=2592000,immutable"
-      - name: Create CloudFront invalidation
-        run: |
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
+    needs: [authenticate, build]
+    uses: ronald50928/.github/.github/workflows/s3-cloudfront-deploy.yml@main
+    with:
+      s3-bucket: ${{ secrets.S3_BUCKET }}
+      cloudfront-distribution-id: ${{ secrets.CF_DISTRIBUTION_ID }}
+      build-artifact-name: ${{ needs.build.outputs.build-artifact-name }}
+      working-directory: 'site'
+    secrets: inherit
 
