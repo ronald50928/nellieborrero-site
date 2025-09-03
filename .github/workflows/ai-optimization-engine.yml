@@ -1,0 +1,398 @@
+name: 🎨 Portfolio AI Optimization Engine
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours for comprehensive optimization
+  workflow_dispatch:
+    inputs:
+      optimization_mode:
+        description: 'Optimization Focus'
+        required: false
+        default: '95-percent-target'
+        type: choice
+        options:
+          - 95-percent-target
+          - portfolio-performance
+          - visual-optimization
+          - accessibility-focus
+
+env:
+  SITE_URL: 'https://nellieborrero.com'
+  TARGET_SCORE: '95'
+  CURRENT_BASELINE: '82'
+  FOCUS_AREAS: 'performance,security,accessibility,seo,visual-optimization'
+
+jobs:
+  # Portfolio-Specific Performance Analysis
+  portfolio-performance-optimization:
+    name: 🖼️ Portfolio Performance AI
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    outputs:
+      performance-score: ${{ steps.analysis.outputs.score }}
+      optimization-recommendations: ${{ steps.analysis.outputs.recommendations }}
+      score-gap: ${{ steps.analysis.outputs.gap }}
+      critical-issues: ${{ steps.analysis.outputs.critical }}
+    steps:
+      - name: 🎨 Portfolio-Specific Performance Analysis
+        id: analysis
+        run: |
+          # AI analysis tailored for creative portfolio site
+          
+          echo "🎨 Analyzing Nellie Borrero Portfolio Performance..."
+          
+          # Performance check with portfolio focus
+          STATUS=$(timeout 15 curl -s -o /dev/null -w "%{http_code}" "${{ env.SITE_URL }}" || echo "000")
+          RESPONSE_TIME=$(timeout 15 curl -s -o /dev/null -w "%{time_total}" "${{ env.SITE_URL }}" || echo "999")
+          
+          # Portfolio performance scoring (more comprehensive for 13-point gap)
+          PERFORMANCE_SCORE=0
+          CRITICAL_ISSUES=()
+          
+          # Base availability (15 points)
+          if [ "$STATUS" = "200" ]; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 15))
+          else
+            CRITICAL_ISSUES+=("Site unavailable - critical issue")
+          fi
+          
+          # Response time scoring for portfolio (25 points)
+          if [ $(echo "$RESPONSE_TIME < 1.0" | bc -l 2>/dev/null || echo "0") = 1 ]; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 25))
+          elif [ $(echo "$RESPONSE_TIME < 1.5" | bc -l 2>/dev/null || echo "0") = 1 ]; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 20))
+          elif [ $(echo "$RESPONSE_TIME < 2.5" | bc -l 2>/dev/null || echo "0") = 1 ]; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 15))
+          else
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 5))
+            CRITICAL_ISSUES+=("Slow response time: ${RESPONSE_TIME}s - needs optimization")
+          fi
+          
+          # Security headers for portfolio (20 points)
+          HEADERS=$(timeout 10 curl -s -I "${{ env.SITE_URL }}" || echo "")
+          SECURITY_SCORE=0
+          
+          if echo "$HEADERS" | grep -qi "strict-transport-security"; then
+            SECURITY_SCORE=$((SECURITY_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Missing HSTS header")
+          fi
+          
+          if echo "$HEADERS" | grep -qi "content-security-policy"; then
+            SECURITY_SCORE=$((SECURITY_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Missing Content Security Policy")
+          fi
+          
+          if echo "$HEADERS" | grep -qi "x-frame-options"; then
+            SECURITY_SCORE=$((SECURITY_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Missing X-Frame-Options header")
+          fi
+          
+          if echo "$HEADERS" | grep -qi "x-content-type-options"; then
+            SECURITY_SCORE=$((SECURITY_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Missing X-Content-Type-Options header")
+          fi
+          
+          PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + SECURITY_SCORE))
+          
+          # Portfolio-specific optimizations (20 points)
+          CONTENT=$(timeout 15 curl -s "${{ env.SITE_URL }}" || echo "")
+          
+          # Image optimization check
+          if echo "$CONTENT" | grep -qi "webp\|avif"; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Images not optimized - missing WebP/AVIF")
+          fi
+          
+          # Lazy loading check
+          if echo "$CONTENT" | grep -qi "loading.*lazy\|intersection.*observer"; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 5))
+          else
+            CRITICAL_ISSUES+=("Missing lazy loading for portfolio images")
+          fi
+          
+          # Modern CSS/JS check
+          if echo "$CONTENT" | grep -qi "css.*grid\|flexbox"; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 3))
+          fi
+          
+          # Accessibility check
+          if echo "$CONTENT" | grep -qi "alt=\|aria-"; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 4))
+          else
+            CRITICAL_ISSUES+=("Accessibility issues - missing alt text or ARIA labels")
+          fi
+          
+          # SEO optimization check
+          if echo "$CONTENT" | grep -qi "meta.*description\|og:"; then
+            PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + 3))
+          else
+            CRITICAL_ISSUES+=("SEO optimization needed - missing meta tags")
+          fi
+          
+          # Progressive enhancement (20 points)
+          PWA_SCORE=0
+          
+          # Service worker check
+          if echo "$CONTENT" | grep -qi "service.*worker\|sw\.js"; then
+            PWA_SCORE=$((PWA_SCORE + 8))
+          else
+            CRITICAL_ISSUES+=("Missing service worker for offline portfolio viewing")
+          fi
+          
+          # Manifest check
+          if echo "$CONTENT" | grep -qi "manifest\.json"; then
+            PWA_SCORE=$((PWA_SCORE + 6))
+          else
+            CRITICAL_ISSUES+=("Missing web app manifest")
+          fi
+          
+          # Modern features
+          if echo "$CONTENT" | grep -qi "preload\|prefetch"; then
+            PWA_SCORE=$((PWA_SCORE + 6))
+          else
+            CRITICAL_ISSUES+=("Missing resource preloading optimization")
+          fi
+          
+          PERFORMANCE_SCORE=$((PERFORMANCE_SCORE + PWA_SCORE))
+          
+          # Calculate score gap
+          SCORE_GAP=$((95 - PERFORMANCE_SCORE))
+          
+          # Generate portfolio-specific recommendations
+          RECOMMENDATIONS=()
+          
+          if [ $PERFORMANCE_SCORE -lt 95 ]; then
+            if [ $SCORE_GAP -gt 15 ]; then
+              RECOMMENDATIONS+=("🚨 CRITICAL: Complete portfolio performance overhaul needed")
+              RECOMMENDATIONS+=("🖼️ Implement comprehensive image optimization pipeline")
+              RECOMMENDATIONS+=("🔒 Add complete security headers suite")
+              RECOMMENDATIONS+=("⚡ Optimize critical rendering path for portfolio showcase")
+              RECOMMENDATIONS+=("📱 Implement Progressive Web App features")
+            elif [ $SCORE_GAP -gt 10 ]; then
+              RECOMMENDATIONS+=("⚠️ HIGH PRIORITY: Major optimizations needed")
+              RECOMMENDATIONS+=("🎨 Optimize portfolio image delivery and lazy loading")
+              RECOMMENDATIONS+=("🔧 Implement modern caching strategies")
+              RECOMMENDATIONS+=("♿ Add comprehensive accessibility features")
+            elif [ $SCORE_GAP -gt 5 ]; then
+              RECOMMENDATIONS+=("🎯 MEDIUM PRIORITY: Fine-tune performance")
+              RECOMMENDATIONS+=("✨ Enhance visual performance and animations")
+              RECOMMENDATIONS+=("📊 Optimize Core Web Vitals for portfolio viewing")
+            else
+              RECOMMENDATIONS+=("🏆 ALMOST THERE: Final optimizations for 95%")
+              RECOMMENDATIONS+=("🔍 Focus on micro-optimizations and polish")
+            fi
+            
+            # Specific portfolio recommendations
+            RECOMMENDATIONS+=("🎨 Portfolio-specific: Optimize image galleries for fast browsing")
+            RECOMMENDATIONS+=("📱 Add touch-friendly navigation for mobile portfolio viewing")
+            RECOMMENDATIONS+=("🔍 Implement portfolio search and filtering optimization")
+          else
+            RECOMMENDATIONS+=("🎉 EXCELLENT! Portfolio is performing at 95%+ level")
+          fi
+          
+          # Format outputs
+          REC_LIST=$(printf '%s\n' "${RECOMMENDATIONS[@]}" | jq -R . | jq -s .)
+          CRITICAL_LIST=$(printf '%s\n' "${CRITICAL_ISSUES[@]}" | jq -R . | jq -s .)
+          
+          echo "score=$PERFORMANCE_SCORE" >> $GITHUB_OUTPUT
+          echo "gap=$SCORE_GAP" >> $GITHUB_OUTPUT
+          echo "recommendations=$REC_LIST" >> $GITHUB_OUTPUT
+          echo "critical=$CRITICAL_LIST" >> $GITHUB_OUTPUT
+          
+          echo "🎨 Portfolio Performance Analysis:"
+          echo "  Current Score: $PERFORMANCE_SCORE/100"
+          echo "  Target: 95/100"
+          echo "  Gap: $SCORE_GAP points"
+          echo "  Critical Issues: ${#CRITICAL_ISSUES[@]}"
+          echo "  Response Time: ${RESPONSE_TIME}s"
+
+  # Portfolio Visual Optimization
+  portfolio-visual-optimization:
+    name: 🖼️ Visual Optimization AI
+    runs-on: ubuntu-latest
+    needs: [portfolio-performance-optimization]
+    if: needs.portfolio-performance-optimization.outputs.score < 95
+    steps:
+      - name: 🖼️ Portfolio Visual Analysis
+        run: |
+          CURRENT_SCORE="${{ needs.portfolio-performance-optimization.outputs.score }}"
+          SCORE_GAP="${{ needs.portfolio-performance-optimization.outputs.score-gap }}"
+          
+          echo "🖼️ Analyzing Portfolio Visual Performance..."
+          
+          # Portfolio-specific visual recommendations
+          VISUAL_RECOMMENDATIONS=()
+          
+          if [ $SCORE_GAP -gt 15 ]; then
+            VISUAL_RECOMMENDATIONS+=("🎨 CRITICAL: Implement modern image formats (WebP, AVIF)")
+            VISUAL_RECOMMENDATIONS+=("📐 Add responsive image sizing for all portfolio pieces")
+            VISUAL_RECOMMENDATIONS+=("⚡ Implement progressive image loading")
+            VISUAL_RECOMMENDATIONS+=("🖼️ Optimize image compression without quality loss")
+          elif [ $SCORE_GAP -gt 10 ]; then
+            VISUAL_RECOMMENDATIONS+=("🎭 Add image lazy loading for portfolio galleries")
+            VISUAL_RECOMMENDATIONS+=("🎨 Optimize CSS for faster visual rendering")
+            VISUAL_RECOMMENDATIONS+=("📱 Enhance mobile portfolio viewing experience")
+          elif [ $SCORE_GAP -gt 5 ]; then
+            VISUAL_RECOMMENDATIONS+=("✨ Fine-tune image transitions and animations")
+            VISUAL_RECOMMENDATIONS+=("🎯 Optimize portfolio thumbnail generation")
+          else
+            VISUAL_RECOMMENDATIONS+=("🏆 Polish visual micro-interactions")
+          fi
+          
+          echo "🖼️ Portfolio Visual Optimization Recommendations:"
+          printf '%s\n' "${VISUAL_RECOMMENDATIONS[@]}"
+
+  # Portfolio Accessibility & SEO
+  portfolio-accessibility-seo:
+    name: ♿ Accessibility & SEO AI
+    runs-on: ubuntu-latest
+    needs: [portfolio-performance-optimization]
+    if: needs.portfolio-performance-optimization.outputs.score < 95
+    steps:
+      - name: ♿ Portfolio Accessibility Analysis
+        run: |
+          SCORE_GAP="${{ needs.portfolio-performance-optimization.outputs.score-gap }}"
+          
+          echo "♿ Analyzing Portfolio Accessibility & SEO..."
+          
+          # Accessibility recommendations for creative portfolio
+          ACCESSIBILITY_RECS=()
+          
+          if [ $SCORE_GAP -gt 10 ]; then
+            ACCESSIBILITY_RECS+=("♿ CRITICAL: Add alt text to all portfolio images")
+            ACCESSIBILITY_RECS+=("🔤 Implement proper heading structure (h1-h6)")
+            ACCESSIBILITY_RECS+=("🎯 Add ARIA labels for interactive portfolio elements")
+            ACCESSIBILITY_RECS+=("⌨️ Ensure keyboard navigation for all portfolio features")
+            ACCESSIBILITY_RECS+=("🎨 Check color contrast ratios for accessibility compliance")
+          else
+            ACCESSIBILITY_RECS+=("✨ Fine-tune accessibility features")
+            ACCESSIBILITY_RECS+=("🔍 Add screen reader optimization")
+          fi
+          
+          # SEO recommendations for portfolio
+          SEO_RECS=()
+          
+          if [ $SCORE_GAP -gt 10 ]; then
+            SEO_RECS+=("📊 Add comprehensive meta descriptions for portfolio pages")
+            SEO_RECS+=("🏷️ Implement structured data for creative works")
+            SEO_RECS+=("📱 Add Open Graph tags for social media sharing")
+            SEO_RECS+=("🗺️ Create XML sitemap for portfolio navigation")
+          else
+            SEO_RECS+=("🔍 Optimize portfolio keywords and descriptions")
+          fi
+          
+          echo "♿ Accessibility Recommendations:"
+          printf '%s\n' "${ACCESSIBILITY_RECS[@]}"
+          echo ""
+          echo "📊 SEO Recommendations:"
+          printf '%s\n' "${SEO_RECS[@]}"
+
+  # Portfolio Monitoring & Critical Alerts
+  portfolio-monitoring:
+    name: 📊 Portfolio Monitoring AI
+    runs-on: ubuntu-latest
+    needs: [portfolio-performance-optimization, portfolio-visual-optimization, portfolio-accessibility-seo]
+    if: always()
+    steps:
+      - name: 📊 Generate Portfolio Optimization Report
+        run: |
+          cat << EOF > portfolio-optimization-report.md
+          # 🎨 Nellie Borrero Portfolio AI Optimization Report - $(date)
+          
+          ## 🎯 95% Score Target Progress
+          - **Current Score**: ${{ needs.portfolio-performance-optimization.outputs.score }}/100
+          - **Target Score**: 95/100
+          - **Score Gap**: ${{ needs.portfolio-performance-optimization.outputs.score-gap }} points
+          - **Optimization Mode**: ${{ github.event.inputs.optimization_mode || 'automated' }}
+          
+          ## 🚨 Critical Issues
+          ${{ needs.portfolio-performance-optimization.outputs.critical }}
+          
+          ## 🚀 Performance Recommendations
+          ${{ needs.portfolio-performance-optimization.outputs.recommendations }}
+          
+          ## 🎨 Portfolio-Specific Insights
+          - Focus Area: Creative portfolio showcase optimization
+          - Visual Performance: Image delivery and gallery optimization
+          - Target Audience: Art directors, clients, creative professionals
+          - Key Metrics: Visual loading speed, image quality, mobile experience
+          
+          ## 🎯 Priority Action Plan
+          $(if [ "${{ needs.portfolio-performance-optimization.outputs.score }}" -lt 85 ]; then
+            echo "🚨 CRITICAL PRIORITY (Score < 85):"
+            echo "1. Implement comprehensive image optimization"
+            echo "2. Add complete security headers suite"
+            echo "3. Optimize critical rendering path"
+            echo "4. Add Progressive Web App features"
+          elif [ "${{ needs.portfolio-performance-optimization.outputs.score }}" -lt 90 ]; then
+            echo "⚠️ HIGH PRIORITY (Score < 90):"
+            echo "1. Optimize portfolio image delivery"
+            echo "2. Implement lazy loading and caching"
+            echo "3. Add accessibility features"
+            echo "4. Enhance mobile experience"
+          elif [ "${{ needs.portfolio-performance-optimization.outputs.score }}" -lt 95 ]; then
+            echo "🎯 MEDIUM PRIORITY (Score < 95):"
+            echo "1. Fine-tune Core Web Vitals"
+            echo "2. Optimize visual animations"
+            echo "3. Polish micro-interactions"
+          else
+            echo "🎉 TARGET ACHIEVED! Focus on maintaining 95%+ performance"
+          fi)
+          
+          ---
+          *Generated by Portfolio AI Optimization Engine*
+          EOF
+
+      - name: 📤 Upload Portfolio Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-optimization-$(date +%Y%m%d-%H%M)
+          path: portfolio-optimization-report.md
+          retention-days: 30
+
+      - name: 🎨 Portfolio Critical Alert
+        if: env.SLACK_WEBHOOK_URL != '' && (needs.portfolio-performance-optimization.outputs.score < 90 || github.event_name == 'workflow_dispatch')
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          SCORE="${{ needs.portfolio-performance-optimization.outputs.score }}"
+          GAP="${{ needs.portfolio-performance-optimization.outputs.score-gap }}"
+          
+          # Determine alert urgency based on score
+          if [ $SCORE -ge 90 ]; then
+            COLOR="#90EE90"
+            STATUS="Good Progress"
+            URGENCY="Medium"
+          elif [ $SCORE -ge 85 ]; then
+            COLOR="#FFA500"
+            STATUS="Needs Attention"
+            URGENCY="High"
+          else
+            COLOR="#FF4444"
+            STATUS="Critical Issues"
+            URGENCY="CRITICAL"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"$COLOR\",
+                \"title\": \"🎨 Portfolio Optimization Alert - $URGENCY\",
+                \"text\": \"Nellie Borrero Portfolio needs optimization: $STATUS\",
+                \"fields\": [
+                  {\"title\": \"Current Score\", \"value\": \"$SCORE/100\", \"short\": true},
+                  {\"title\": \"Target Score\", \"value\": \"95/100\", \"short\": true},
+                  {\"title\": \"Gap Remaining\", \"value\": \"$GAP points\", \"short\": true},
+                  {\"title\": \"Priority\", \"value\": \"$URGENCY\", \"short\": true},
+                  {\"title\": \"Focus Areas\", \"value\": \"Images, Performance, Security, Accessibility\", \"short\": false}
+                ],
+                \"footer\": \"Portfolio AI Optimization Engine\",
+                \"ts\": $(date +%s)
+              }]
+            }" \
+            "$SLACK_WEBHOOK_URL" || echo "Notification failed"
